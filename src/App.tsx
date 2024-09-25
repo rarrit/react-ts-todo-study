@@ -64,12 +64,13 @@ function App() {
   return (
     <>
       <div>
+        <h1>Todo List</h1>
         <input 
           type="text"
           value={title}
           onChange={handleTitleChange}
         />
-        <button onClick={handleAddTodo}>추가하기</button>
+        <button onClick={handleAddTodo}>Add Todo</button>
       </div>      
       <TodoList todoList={todoList} onDeleteClick={handleDeleteTodo} onToggleClick={handleToggleTodo}/>
     </>
@@ -84,16 +85,18 @@ type TodoListProps = {
 function TodoList({ todoList, onDeleteClick, onToggleClick }: TodoListProps){
   return (
     <>
-      {
-        todoList.map(todo => (
-          <TodoItem 
-            key={todo.id}
-            {...todo}
-            onDeleteClick={onDeleteClick}
-            onToggleClick={onToggleClick}
-          />
-        ))
-      }
+      <ul>
+        {
+          todoList.map(todo => (
+            <TodoItem 
+              key={todo.id}
+              {...todo}
+              onDeleteClick={onDeleteClick}
+              onToggleClick={onToggleClick}
+            />
+          ))
+        }
+      </ul>
     </>
   )
 }
@@ -103,13 +106,13 @@ type TodoItemProps = Todo & {
 };
 function TodoItem({ id, title, completed, onDeleteClick, onToggleClick }: TodoItemProps) {
   return (
-    <div>      
-      <p>id: {id}</p>
-      <p onClick={() => onToggleClick({id, completed})}>title: {title}</p>
-      <p>completed: {`${completed}`}</p>
-      <button onClick={() => onDeleteClick(id)}>삭제하기</button>
-      <hr/>
-    </div>
+    <li style={{ display: "flex"}}>      
+      {/* <p>id: {id}</p> */}
+      <p style={completed ? { textDecoration: "line-through" } : {}}>title: {title}</p>
+      {/* <p>completed: {`${completed}`}</p> */}
+      <button onClick={() => onToggleClick({id, completed})}>{!completed ? "Complete" : "Undo"}</button>
+      <button onClick={() => onDeleteClick(id)}>Delete</button>      
+    </li>
   )
 }
 
